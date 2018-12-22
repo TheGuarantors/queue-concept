@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Automatically package and publish to packages.theguarantors.com
+
+echo "==> This is a stub for a real script"

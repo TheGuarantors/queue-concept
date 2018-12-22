@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig-base",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declarationDir": "dist",
+    "outDir": "dist",
+    "paths": {
+      "*": ["node_modules/*"]
+    },
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src/**/*"]
+}
