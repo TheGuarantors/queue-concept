@@ -20,7 +20,9 @@
     "test": "NODE_ENV=test mocha -r source-map-support/register",
     "start": "npm run compile && node dist/index.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "dotenv-safe": "^5.0.1"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.5",
     "@types/chai-as-promised": "^7.1.0",
