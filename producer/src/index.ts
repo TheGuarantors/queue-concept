@@ -1,10 +1,14 @@
 require("dotenv-safe").config();
 
-import { getCount, close } from "@theguarantors/queue";
-import { pr2 } from "./pr-2";
+import {
+  close,
+  count,
+  push
+} from "@theguarantors/queue";
 
-getCount()
+count("hubspot")
   .tap(console.log)
-  .then(pr2)
+  .then(() => push("hubspot", { action: "answer", data: 42 }))
+  .then(() => count("hubspot"))
   .tap(console.log)
   .finally(close);
