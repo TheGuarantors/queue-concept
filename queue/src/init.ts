@@ -1,4 +1,5 @@
 import * as Sequelize from "sequelize";
+import { QueueModel } from "./models/queue";
 
 interface Config {
   logging?: boolean;
@@ -20,4 +21,4 @@ export const sequelize = new Sequelize(
   {  pool, ...config, operatorsAliases: false }
 );
 
-export const Queue = sequelize.import("./models/queue");
+export const queueInstance = sequelize.import("./models/queue") as QueueModel;

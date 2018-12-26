@@ -1,7 +1,7 @@
 {
-  "name": "@theguarantors/queue",
+  "name": "consumer",
   "version": "0.0.1",
-  "description": "queue",
+  "description": "consumer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "config": {
@@ -17,30 +17,25 @@
     "compile-tests": "tsc --p ./test",
     "lint": "tslint -c tslint.json '{src,test}/**/*.ts'",
     "pretest": "npm run compile-tests",
-    "publish": "npm run clean && npm run compile && ../bin/npm-tg-package",
-    "sequelize": "sequelize",
-    "test": "NODE_ENV=test mocha -r source-map-support/register"
+    "test": "NODE_ENV=test mocha -r source-map-support/register",
+    "start": "npm run compile && node dist/index.js"
   },
   "dependencies": {
-    "bluebird": "^3.5.1",
-    "pg": "^7.4.1",
-    "sequelize": "^4.37.6",
+    "dotenv-safe": "^5.0.1",
     "winston": "^3.1.0",
     "winston-syslog": "^2.0.0"
   },
   "devDependencies": {
-    "@types/bluebird": "3.5.2",
     "@types/chai": "^4.1.5",
     "@types/chai-as-promised": "^7.1.0",
     "@types/chai-datetime": "^0.0.32",
     "@types/mocha": "^5.2.5",
     "@types/node": "^9.6.30",
+    "@types/winston-syslog": "^2.0.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-datetime": "^1.5.0",
     "mocha": "^5.1.1",
-    "@types/sequelize": "^4.27.14",
-    "@types/winston-syslog": "^2.0.0",
     "source-map-support": "^0.5.9",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
@@ -48,15 +43,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theguarantors/queue.git"
+    "url": "git+https://github.com/theguarantors/consumer.git"
   },
   "keywords": [
-    "queue"
+    "consumer"
   ],
   "author": "theguarantors",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/theguarantors/queue/issues"
+    "url": "https://github.com/theguarantors/consumer/issues"
   },
-  "homepage": "https://github.com/theguarantors/queue#readme"
+  "homepage": "https://github.com/theguarantors/consumer#readme"
 }

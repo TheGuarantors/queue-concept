@@ -1,8 +1,8 @@
 import * as Promise from "bluebird";
-import { Queue } from "../init";
+import { queueInstance } from "../init";
 
 export function count(queueName: string): Promise<number> {
-  return Queue.count({
+  return queueInstance.count({
     where: { queue: queueName }
   });
 }

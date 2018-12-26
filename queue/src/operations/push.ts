@@ -1,5 +1,5 @@
 import * as Promise from "bluebird";
-import { Queue } from "../init";
+import { queueInstance } from "../init";
 import { Message } from "../types";
 import { QueueAttrs } from "../models/queue";
 
@@ -7,7 +7,7 @@ export function push(
   queueName: string,
   message: Message
 ): Promise<QueueAttrs> {
-  return Queue.findOrCreate({
+  return queueInstance.findOrCreate({
     where: {
       queue: queueName,
       message: encodeForQueue(message)
