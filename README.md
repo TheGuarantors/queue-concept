@@ -25,4 +25,4 @@ In `producer` directory:
 > npm start
 
 In `consumer` directory:
-> npm starty
+> npm start
