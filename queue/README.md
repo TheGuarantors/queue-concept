@@ -68,7 +68,7 @@ function close(): Promise<void>
 ```
 
 ## Create queue instance
-1. Set environment variable `DATABASE_URL` to the postgeSQL connection string.
+1. Set environment variable `DATABASE_URL` to the postgreSQL connection string.
 2. Import any function from the package.
 
 ## Close queue instance
