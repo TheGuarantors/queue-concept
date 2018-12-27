@@ -43,7 +43,9 @@ describe("Queue.Operations.Work", function() {
   };
 
   const statusCodeErrorMessage: QueueablesMap = {
-    "add-contact-to-company": sinon.stub().rejects({ message: "StatusCodeError" })
+    "add-contact-to-company": sinon.stub().rejects({
+      message: "StatusCodeError"
+    })
   };
 
   const unhandledErrorMessage: QueueablesMap = {
@@ -56,7 +58,8 @@ describe("Queue.Operations.Work", function() {
         it("gets rejected with the correct error", () =>
           withRollback(() => {
             return expect(
-              factory.create("queue", { queue, message: "" }).then(() => work(queue, queueables, logger))
+              factory.create("queue", { queue, message: "" })
+                .then(() => work(queue, queueables, logger))
             ).to.be.rejectedWith(InvalidQueueMessageError);
           }));
 
@@ -103,7 +106,8 @@ describe("Queue.Operations.Work", function() {
       it("gets rejected with the correct error", () =>
         withRollback(() => {
           return expect(
-            push(queue, validMessage1).then(() => work(queue, requestErrorMessage, logger))
+            push(queue, validMessage1)
+              .then(() => work(queue, requestErrorMessage, logger))
           ).to.be.rejectedWith("RequestError");
         }));
 
@@ -121,7 +125,8 @@ describe("Queue.Operations.Work", function() {
       it("gets rejected with the correct error", () =>
         withRollback(() => {
           return expect(
-            push(queue, validMessage1).then(() => work(queue, statusCodeErrorMessage, logger))
+            push(queue, validMessage1)
+              .then(() => work(queue, statusCodeErrorMessage, logger))
           ).to.be.rejectedWith("StatusCodeError");
         }));
 
@@ -148,7 +153,8 @@ describe("Queue.Operations.Work", function() {
       it("gets rejected with the correct error", () =>
         withRollback(() => {
           return expect(
-            push(queue, validMessage1).then(() => work(queue, unhandledErrorMessage, logger))
+            push(queue, validMessage1)
+              .then(() => work(queue, unhandledErrorMessage, logger))
           ).to.be.rejectedWith("Unhandled Error");
         }));
 
@@ -174,7 +180,8 @@ describe("Queue.Operations.Work", function() {
     context("and there is no errors", function() {
       it("gets fulfilled", () =>
         withRollback(() => {
-          return expect(push(queue, validMessage1).then(() => work(queue, queueables, logger))).to.be.fulfilled;
+          return expect(push(queue, validMessage1)
+            .then(() => work(queue, queueables, logger))).to.be.fulfilled;
         }));
 
       it("deletes the entry", () =>

@@ -1,5 +1,7 @@
 ## Queue packaging concept
 
+### Queue package [description](queue/README.md)
+
 ### To emulate npm package registry:
 
 In `queue` directory:

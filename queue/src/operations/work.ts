@@ -26,25 +26,42 @@ export function work(
       })
       .catch(err => {
         if (err.message.includes("RequestError")) {
-          logger.error(`HubSpot network error, marking queue message: ${err.message}`);
+          logger.error(
+            `HubSpot network error, marking queue message: ${err.message}`
+          );
+
           return updateStatusWithMessage(queueRecord.id, "unprocessed");
         }
         if (err.message.includes("StatusCodeError")) {
-          logger.error(`HubSpot status code error, marking queue message: ${err.message}`);
-          return updateStatusWithMessage(queueRecord.id, "hubspot-status-code-error", err.message);
+          logger.error(
+            `HubSpot status code error, marking queue message: ${err.message}`
+          );
+
+          return updateStatusWithMessage(
+            queueRecord.id, "hubspot-status-code-error", err.message
+          );
         }
-        return updateStatusWithMessage(queueRecord.id, "unhandled-error", err.message);
+
+        return updateStatusWithMessage(
+          queueRecord.id, "unhandled-error", err.message
+        );
       })
       .then(() => assignError(queueRecord, logger));
   });
 }
 
-function getQueueable(key: string, queueables: QueueablesMap): Promise<Queueable> {
+function getQueueable(
+  key: string,
+  queueables: QueueablesMap
+): Promise<Queueable> {
   return new Promise<Queueable>((resolve, reject) => {
     if (queueables.hasOwnProperty(key)) {
       return resolve(queueables[key]);
     }
-    return reject(new InvalidQueueMessageError(`Invalid queueable key: ${key}`));
+
+    return reject(
+      new InvalidQueueMessageError(`Invalid queueable key: ${key}`)
+    );
   });
 }
 
@@ -59,7 +76,11 @@ function parseJson<T>(json: string): Promise<T> {
   });
 }
 
-function updateStatusWithMessage(id: number, status: Status, statusMessage: string = null): Promise<Queue> {
+function updateStatusWithMessage(
+  id: number,
+  status: Status,
+  statusMessage: string = null
+): Promise<Queue> {
   return queueInstance.update(
     { status, statusMessage },
     {
@@ -76,18 +97,27 @@ function assignError(queueRecord: QueueAttrs, logger: Logger): Promise<Error> {
     }
   }).then(queue => {
     if (queue) {
-      const handler = queue.status in errorMessages ? errorMessages[queue.status] : errorMessages.default;
+      const handler = queue.status in errorMessages
+        ? errorMessages[queue.status]
+        : errorMessages.default;
+
       return Promise.reject(handler(queueRecord, logger));
     }
+
     logger.info(`Message ${queueRecord.message} has been processed`);
   });
 }
 
 const errorMessages: ErrorMessage = {
   "invalid-message": invalidMessage,
-  unprocessed: (_queueRecord, _logger) => new HubSpotNetworkError("RequestError"),
-  "hubspot-status-code-error": (_queueRecord, _logger) => new HubSpotNetworkError("StatusCodeError"),
-  default: (_queueRecord, _logger) => new Error("Unhandled Error")
+
+  "unprocessed": (_queueRecord, _logger) =>
+    new HubSpotNetworkError("RequestError"),
+
+  "hubspot-status-code-error": (_queueRecord, _logger) =>
+    new HubSpotNetworkError("StatusCodeError"),
+
+  "default": (_queueRecord, _logger) => new Error("Unhandled Error")
 };
 
 function invalidMessage(queueRecord: QueueAttrs, logger: Logger): Error {
