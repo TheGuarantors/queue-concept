@@ -1,32 +1,18 @@
 import * as Promise from "bluebird";
-
-import take from "./take";
-
-import { getLogger, Logger } from "../logger";
+import { take } from "./take";
 import { queueInstance } from "../init";
-
 import { InvalidQueueMessageError, HubSpotNetworkError } from "../errors";
-
-import { Message, Queueable, QueueablesMap } from "../types";
+import { Logger, Message, Queueable, QueueablesMap } from "../types";
 import { Queue, QueueAttrs, Status } from "../models/queue";
 
 interface ErrorMessage {
   [message: string]: (queueRecord?: QueueAttrs, logger?: Logger) => Error;
 }
 
-function getQueueable(key: string, queueables: QueueablesMap): Promise<Queueable> {
-  return new Promise<Queueable>((resolve, reject) => {
-    if (queueables.hasOwnProperty(key)) {
-      return resolve(queueables[key]);
-    }
-    return reject(new InvalidQueueMessageError(`Invalid queueable key: ${key}`));
-  });
-}
-
 export function work(
   queueName: string,
   queueables: QueueablesMap,
-  logger: Logger = getLogger()
+  logger: Logger
 ): Promise<void[]> {
   return Promise.map<QueueAttrs, void>(take(queueName), queueRecord => {
     return parseJson<Message>(queueRecord.message)
@@ -50,6 +36,15 @@ export function work(
         return updateStatusWithMessage(queueRecord.id, "unhandled-error", err.message);
       })
       .then(() => assignError(queueRecord, logger));
+  });
+}
+
+function getQueueable(key: string, queueables: QueueablesMap): Promise<Queueable> {
+  return new Promise<Queueable>((resolve, reject) => {
+    if (queueables.hasOwnProperty(key)) {
+      return resolve(queueables[key]);
+    }
+    return reject(new InvalidQueueMessageError(`Invalid queueable key: ${key}`));
   });
 }
 

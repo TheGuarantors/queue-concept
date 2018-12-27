@@ -1,3 +1,4 @@
 --recursive
+--require ./test/js/test/init
 --timeout 20000
 --exit

@@ -4,11 +4,10 @@ import {
   QueueableData,
   QueueablesMap,
   work,
-  // close
 } from "@theguarantors/queue";
+import { getLogger } from "./logger";
 
 function getAnswer(data: QueueableData) {
-  // return data;
   return new Promise(resolve => setTimeout(resolve.bind(null, data), 3000));
 }
 
@@ -16,5 +15,4 @@ const queueables: QueueablesMap = {
   "answer": getAnswer
 };
 
-// work("hubspot", queueables).finally(close);
-setInterval(() => work("hubspot", queueables), 500);
+setInterval(() => work("hubspot", queueables, getLogger()), 500);

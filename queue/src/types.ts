@@ -13,3 +13,16 @@ export interface Queueable {
 export interface QueueablesMap {
   [action: string]: Queueable;
 }
+
+type LogParticularFn = (message: string) => void;
+
+export interface Logger {
+  emerg: LogParticularFn;
+  alert: LogParticularFn;
+  crit: LogParticularFn;
+  error: LogParticularFn;
+  warning: LogParticularFn;
+  notice: LogParticularFn;
+  info: LogParticularFn;
+  debug: LogParticularFn;
+}

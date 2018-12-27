@@ -3,7 +3,7 @@ import * as Promise from "bluebird";
 import { sequelize } from "../init";
 import { QueueAttrs } from "../models/queue";
 
-export default function take(
+export function take(
   queueName: string,
 ): Promise<QueueAttrs[]> {
   const preparedStatement =
