@@ -67,9 +67,18 @@ function work(
 function close(): Promise<void>
 ```
 
+## Exceptions
+
+```
+  InvalidQueueMessageError,
+  HubSpotNetworkError
+```
+
 ## Create queue instance
+
 1. Set environment variable `DATABASE_URL` to the postgreSQL connection string.
 2. Import any function from the package.
 
 ## Close queue instance
+
 Call `close()`

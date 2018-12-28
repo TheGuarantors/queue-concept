@@ -9,3 +9,8 @@ export {
   Queueable,
   QueueablesMap
 } from "./types";
+
+export {
+  InvalidQueueMessageError,
+  HubSpotNetworkError
+} from "./errors";
